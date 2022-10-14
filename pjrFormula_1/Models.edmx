@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="F1_2022Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="model" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="year" Type="int" Nullable="false" />
+          <Property Name="unit" Type="int" Nullable="false" />
+          <Property Name="id_team" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pilot">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PilotCar">
+          <Key>
+            <PropertyRef Name="id_Pilot" />
+            <PropertyRef Name="id_Car" />
+            <PropertyRef Name="event_date" />
+          </Key>
+          <Property Name="id_Pilot" Type="int" Nullable="false" />
+          <Property Name="id_Car" Type="int" Nullable="false" />
+          <Property Name="event_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Car_Team">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="id_team" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PilotCar_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="PilotCar" Type="Self.PilotCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PilotCar">
+              <PropertyRef Name="id_Car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PilotCar_Pilot">
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="1" />
+          <End Role="PilotCar" Type="Self.PilotCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pilot">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PilotCar">
+              <PropertyRef Name="id_Pilot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="F1_2022ModelStoreContainer">
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pilot" EntityType="Self.Pilot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PilotCar" EntityType="Self.PilotCar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Car_Team" Association="Self.FK_Car_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PilotCar_Car" Association="Self.FK_PilotCar_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="PilotCar" EntitySet="PilotCar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PilotCar_Pilot" Association="Self.FK_PilotCar_Pilot">
+            <End Role="Pilot" EntitySet="Pilot" />
+            <End Role="PilotCar" EntitySet="PilotCar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="F1_2022Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="model" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="year" Type="Int32" Nullable="false" />
+          <Property Name="unit" Type="Int32" Nullable="false" />
+          <Property Name="id_team" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="Self.FK_Car_Team" FromRole="Car" ToRole="Team" />
+          <NavigationProperty Name="PilotCars" Relationship="Self.FK_PilotCar_Car" FromRole="Car" ToRole="PilotCar" />
+        </EntityType>
+        <EntityType Name="Pilot">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PilotCars" Relationship="Self.FK_PilotCar_Pilot" FromRole="Pilot" ToRole="PilotCar" />
+        </EntityType>
+        <EntityType Name="PilotCar">
+          <Key>
+            <PropertyRef Name="id_Pilot" />
+            <PropertyRef Name="id_Car" />
+            <PropertyRef Name="event_date" />
+          </Key>
+          <Property Name="id_Pilot" Type="Int32" Nullable="false" />
+          <Property Name="id_Car" Type="Int32" Nullable="false" />
+          <Property Name="event_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_PilotCar_Car" FromRole="PilotCar" ToRole="Car" />
+          <NavigationProperty Name="Pilot" Relationship="Self.FK_PilotCar_Pilot" FromRole="PilotCar" ToRole="Pilot" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Car_Team" FromRole="Team" ToRole="Car" />
+        </EntityType>
+        <Association Name="FK_Car_Team">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="id_team" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PilotCar_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="PilotCar" Type="Self.PilotCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PilotCar">
+              <PropertyRef Name="id_Car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PilotCar_Pilot">
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="1" />
+          <End Role="PilotCar" Type="Self.PilotCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pilot">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PilotCar">
+              <PropertyRef Name="id_Pilot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="F1_2022Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cars" EntityType="Self.Car" />
+          <EntitySet Name="Pilots" EntityType="Self.Pilot" />
+          <EntitySet Name="PilotCars" EntityType="Self.PilotCar" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <AssociationSet Name="FK_Car_Team" Association="Self.FK_Car_Team">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PilotCar_Car" Association="Self.FK_PilotCar_Car">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="PilotCar" EntitySet="PilotCars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PilotCar_Pilot" Association="Self.FK_PilotCar_Pilot">
+            <End Role="Pilot" EntitySet="Pilots" />
+            <End Role="PilotCar" EntitySet="PilotCars" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="F1_2022ModelStoreContainer" CdmEntityContainer="F1_2022Entities">
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="F1_2022Model.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="id_team" ColumnName="id_team" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pilots">
+            <EntityTypeMapping TypeName="F1_2022Model.Pilot">
+              <MappingFragment StoreEntitySet="Pilot">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PilotCars">
+            <EntityTypeMapping TypeName="F1_2022Model.PilotCar">
+              <MappingFragment StoreEntitySet="PilotCar">
+                <ScalarProperty Name="id_Pilot" ColumnName="id_Pilot" />
+                <ScalarProperty Name="id_Car" ColumnName="id_Car" />
+                <ScalarProperty Name="event_date" ColumnName="event_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="F1_2022Model.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
