@@ -30,6 +30,7 @@ namespace pjrFormula_1.Controllers
         static public void PrintListPilotCar()
         {
 
+
             using (var context = new F1_2022Entities())
             {
                 var team = context.PilotCars.ToList();
