@@ -49,24 +49,29 @@ namespace pjrFormula_1.Controllers
             Console.ReadKey();
             Console.Clear();
         }
-        //static public void SelectPilotCar(string n)
-        //{
+        static public void SelectPilotCar(PilotCar pc)
+        {
 
-        //    Team search = new F1_2022Entities().PilotCars.FirstOrDefault(b => b.name == n);
+            Team search = new Team();
+           
+            using (var context = new F1_2022Entities())
+            {
+                search = context.PilotCars.FirstOrDefault(b => b.id == n);
+                if (search != null)
+                {
+                    Console.WriteLine(search.ToString());
+                }
+                else
+                    Console.WriteLine("\n Equipe não encontrado");
+            }
+           
 
-        //    if (search != null)
-        //    {
-        //        Console.WriteLine(search.ToString());
-        //    }
-        //    else
-        //        Console.WriteLine("\n Equipe não encontrado");
 
+            Console.WriteLine("\nPressione ENTER para continuar");
+            Console.ReadKey();
+            Console.Clear();
 
-        //    Console.WriteLine("\nPressione ENTER para continuar");
-        //    Console.ReadKey();
-        //    Console.Clear();
-
-        //}
+        }
         #endregion
 
         #region UPDATE

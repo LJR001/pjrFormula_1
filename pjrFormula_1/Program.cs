@@ -67,6 +67,115 @@ namespace pjrFormula_1
 
         #endregion
 
+        #region PRINT LIST
+        
+        public static void PrintListTeam() { TeamController.PrintListTeam(); }
+        public static void PrintListCar() { CarController.PrintListCar(); }
+        public static void PrintListPilor() { PilotController.PrintListPilot(); }
+        public static void PrintListPilotCar() {PilotCarController.PrintListPilotCar(); }
+
+        #endregion
+
+        #region SELECT
+
+        public static void SelectTeam()
+        {
+            Console.WriteLine(" Digite o nome da equipe");
+            string nome = Console.ReadLine();
+
+            TeamController.SelectTeam(nome);
+        }
+
+        public static void SelectPilot()
+        {
+            Console.WriteLine(" Digite o nome do Piloto");
+            string nome=Console.ReadLine();
+
+            PilotController.SelectPilot(nome);  
+        }
+              
+        public static void SelectCar()
+        {
+            Console.WriteLine(" Digite o codigo de registro do carro");
+            int codigo =int.Parse(Console.ReadLine());
+
+            CarController.SelectCar(codigo);
+        }
+
+        public static void SelectPilotCar()
+        {
+            Console.WriteLine(" Em manutenção");
+
+            Console.ReadKey();
+        }
+        #endregion
+
+        #region UPDATE
+        
+        public static void UpdateTeam()
+        {
+            Console.WriteLine(" Digite o nome da equipe");
+            string nome = Console.ReadLine();
+
+            Console.WriteLine(" Digite o novo nome da equipe");
+            string novoNome = Console.ReadLine();
+
+            TeamController.UpdateTeam(nome,novoNome);
+        }
+
+        public static void UpdatePilot()
+        {
+            Console.WriteLine(" Digite o nome do piloto");
+            string nome = Console.ReadLine();
+
+            Console.WriteLine(" Digite o novo nome do piloto");
+            string novoNome = Console.ReadLine();
+
+            PilotController.UpdatePilot(nome,novoNome);
+        }
+        
+        public static void UpdateCar()
+        {
+            int opc = 0;
+            Console.WriteLine(" Digite o codigo da equipe");
+            int cod = int.Parse(Console.ReadLine());
+
+            var car = CarController.SelectCar(cod);
+
+            switch (opc)
+            {
+                case 0:break;
+                    case 1:
+                    Console.WriteLine(" Digite o novo modelo ");
+                    car.model = Console.ReadLine();
+                    break;
+                case 2:
+                    Console.WriteLine(" Digite a novo ano");
+                    car.year = int.Parse(Console.ReadLine());
+                    break;
+                case 3:
+                    Console.WriteLine(" Digite a unidade");
+                    car.unit = int.Parse(Console.ReadLine());
+                    break;
+                case 4:
+                    Console.WriteLine(" Digite o codigo da nova equipe");
+                    car.id_team = int.Parse(Console.ReadLine());
+                    break;
+            }
+
+            CarController.UpdateCar(car);
+
+        }
+
+        public static void UpdatePilotCar()
+        {
+            int opc = 0;
+            Console.WriteLine(" Digite o codigo do evento");
+            int cod = int.Parse(Console.ReadLine());
+
+            var pc = PilotCarController.SelectCar(car);
+        }
+            #endregion
 
         static void Main(string[] args)
         {

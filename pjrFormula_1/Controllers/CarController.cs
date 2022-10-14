@@ -41,7 +41,7 @@ namespace pjrFormula_1.Controllers
                     }
                 }
                 else
-                    Console.WriteLine("A Lista de equipes está vazia");
+                    Console.WriteLine("A Lista de carros está vazia");
             }
 
             Console.WriteLine("\nPressione ENTER para continuar");
